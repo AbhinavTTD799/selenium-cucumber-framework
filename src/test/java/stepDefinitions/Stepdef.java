@@ -17,6 +17,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.*;
 import junit.framework.Assert;
 import pageObjects.AddcustomerPage;
+import pageObjects.AddproductPage;
 import pageObjects.LoginPage;
 import pageObjects.SearchCustomerPage;
 
@@ -58,29 +59,33 @@ public class Stepdef extends BaseClass
 	
 	//Login steps....................
 	@Given("User Launch Chrome browser")
-	public void user_Launch_Chrome_browser() {
+	public void user_Launch_Chrome_browser() throws InterruptedException {
 		logger.info("************* Launching Browser *****************");
 		lp=new LoginPage(driver);
+		Thread.sleep(3000);
 	}
 
 	@When("User opens URL {string}")
-	public void user_opens_URL(String url) {
+	public void user_opens_URL(String url) throws InterruptedException {
 	logger.info("************* Opening URL  *****************");
 	driver.get(url);
 	 driver.manage().window().maximize();
+	 Thread.sleep(3000);
 	}
 
 	@When("User enters Email as {string} and Password as {string}")
-	public void user_enters_Email_as_and_Password_as(String email, String password) {
+	public void user_enters_Email_as_and_Password_as(String email, String password) throws InterruptedException {
 		logger.info("************* Prvding user and password *****************");
 		lp.setUserName(email);
 		lp.setPassword(password);
+		Thread.sleep(3000);
 	}
 
 	@When("Click on Login")
-	public void click_on_Login() {
+	public void click_on_Login() throws InterruptedException {
 		logger.info("************* click on login *****************");
 	   lp.clickLogin();
+	   Thread.sleep(3000);
 	}
 
 	@Then("Page Title should be {string}")
@@ -109,9 +114,10 @@ public class Stepdef extends BaseClass
 	}
 
 	@Then("close browser")
-	public void close_browser() {
+	public void close_browser() throws InterruptedException {
 		logger.info("************* cloding browser *****************");
 	   driver.quit();
+	   Thread.sleep(3000);
 	}
 	
 	//Customer feature step definitions..........................................
@@ -157,14 +163,14 @@ public class Stepdef extends BaseClass
 		// Registered - default
 		// The customer cannot be in both 'Guests' and 'Registered' customer roles
 		// Add the customer to 'Guests' or 'Registered' customer role
-		addCust.setCustomerRoles("Guest");
+		addCust.setCustomerRoles("Guests");
 		Thread.sleep(3000);
 
 		addCust.setManagerOfVendor("Vendor 2");
 		addCust.setGender("Male");
 		addCust.setFirstName("Pavan");
 		addCust.setLastName("Kumar");
-		addCust.setDob("7/05/1985"); // Format: D/MM/YYY
+		//addCust.setDob("7/05/1985"); // Format: D/MM/YYY
 		addCust.setCompanyName("busyQA");
 		addCust.setAdminContent("This is for testing.........");
 	}
@@ -221,10 +227,61 @@ public class Stepdef extends BaseClass
 			Assert.assertEquals(true, status);
 		}
 	
+		
+		@When("User click on Catalog")
+		public void user_click_on_Catalog() throws InterruptedException {
+			addProd = new AddproductPage(driver);
+			addProd.clickOnCatalog();
+			Thread.sleep(3000);
+		}
+
+		@When("click on Products")
+		public void click_on_Products() throws InterruptedException {
+			addProd.clickOnProducts();
+			Thread.sleep(3000);
+		}
+
+		@When("click on Add new button1")
+		public void click_on_Add_new_button1() throws InterruptedException {
+			addProd.clickOnAddnew();
+			Thread.sleep(3000);
+		}
+		
+		@Then("User can view Add new product")
+		public void user_can_view_Add_new_product() throws InterruptedException {
+			 Assert.assertEquals("Add a new product / nopCommerce administration", addProd.getPageTitle());
+			 Thread.sleep(3000);
+		}
+
+		@When("User enter product info")
+		public void user_enter_product_info() throws InterruptedException {
+			String name = "Sri Venkateshwara Swamy - TTD" + randomestring();
+			addProd.setProductname(name);
+			addProd.setShortdescription(name);
+			addProd.setFulldescription(name);
+			addProd.setSku(name);
+			Thread.sleep(3000);
+			addProd.clickOnCategories();
+			Thread.sleep(3000);
+			addProd.clickOnComputers();
+			Thread.sleep(3000);
+			addProd.setPrice("700");
+			addProd.clickIsTaxExempt();
+			Thread.sleep(3000);
+			addProd.setWeight("7");
+			addProd.setLength("9");
+			addProd.setWidth("9");
+			addProd.setHeight("9");
+			Thread.sleep(3000);
+			addProd.clickOnInventoryMethod();
+
+		}
 	
-	
-	
-	
-	
+		@Then("User can view product confirmation message {string}")
+		public void user_can_view_product_confirmation_message(String string) throws InterruptedException {
+			Assert.assertTrue(driver.findElement(By.tagName("body")).getText()
+					.contains("The new product has been added successfully"));
+			Thread.sleep(3000);
+		}
 	
 }

@@ -23,7 +23,7 @@ public class LoginPage {
 	@CacheLookup
 	WebElement txtPassword;
 
-	@FindBy(xpath = "//input[@value='Log in']")
+	@FindBy(xpath = "//button[@class='button-1 login-button']")
 	@CacheLookup
 	WebElement btnLogin;
 

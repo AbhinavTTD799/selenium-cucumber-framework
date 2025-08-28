@@ -1,6 +1,6 @@
 Feature: Customers 
 
-@sanity
+@regression
 Scenario: Add new Customer 
 	Given User Launch Chrome browser 
 	When User opens URL "http://admin-demo.nopcommerce.com/login" 
@@ -45,5 +45,22 @@ Scenario: Search Customer by Name
 	Then User should found Name in the Search table
 	And close browser 
 	
-		
-	
+@regression
+Scenario Outline: Search Customer by Name and Data Driven 
+	Given User Launch Chrome browser 
+	When User opens URL "http://admin-demo.nopcommerce.com/login" 
+	And User enters Email as "<email>" and Password as "<password>" 
+	And Click on Login 
+	Then User can view Dashboad 
+	When User click on customers Menu 
+	And click on customers Menu Item 
+	And Enter customer FirstName
+	And Enter customer LastName
+	When Click on search button
+	Then User should found Name in the Search table
+	And close browser 
+
+    Examples: 
+		| email                 | password |
+		| admin@yourstore.com	| admin    |
+		| admin@yourstore.com   | admin	   |

@@ -17,15 +17,15 @@ public class AddcustomerPage {
 		PageFactory.initElements(ldriver, this);
 	}
 	
-	By lnkCustomers_menu=By.xpath("//a[@href='#']//span[contains(text(),'Customers')]");
-	By lnkCustomers_menuitem=By.xpath("//span[@class='menu-item-title'][contains(text(),'Customers')]");
+	By lnkCustomers_menu=By.xpath("//a[@href='#']//p[contains(text(),'Customers')]");
+	By lnkCustomers_menuitem=By.xpath("//a[@href='/Admin/Customer/List']//p[contains(text(),'Customers')]");
 	
-	By btnAddnew=By.xpath("//a[@class='btn bg-blue']"); //Add new
+	By btnAddnew=By.xpath("//a[@class='btn btn-primary']"); //Add new
 		
 	By txtEmail=By.xpath("//input[@id='Email']");
 	By txtPassword=By.xpath("//input[@id='Password']");
 	
-	By txtcustomerRoles=By.xpath("//div[@class='k-multiselect-wrap k-floatwrap']");
+	By txtcustomerRoles=By.xpath("//input[@aria-controls='select2-SelectedCustomerRoleIds-results']");
 	
 	By lstitemAdministrators=By.xpath("//li[contains(text(),'Administrators')]");
 	By lstitemRegistered=By.xpath("//li[contains(text(),'Registered')]");
@@ -82,11 +82,13 @@ public class AddcustomerPage {
 		{
 			if(!role.equals("Vendors")) //If role is vendors should not delete Register as per req.
 			{
-			ldriver.findElement(By.xpath("//*[@id=\"SelectedCustomerRoleIds_taglist\"]/li/span[2]")).click();
+			ldriver.findElement(By.xpath("//span[@class='select2-selection__choice__remove']")).click();
+			}
+			else 
+			{
+			ldriver.findElement(txtcustomerRoles).click();
 			}
 			
-			ldriver.findElement(txtcustomerRoles).click();
-						
 			WebElement listitem;
 			
 			Thread.sleep(3000);
@@ -112,11 +114,11 @@ public class AddcustomerPage {
 				listitem=ldriver.findElement(lstitemGuests);
 			}
 						
-			//listitem.click();
-			//Thread.sleep(3000);
+			listitem.click();
+			Thread.sleep(3000);
 			
-			JavascriptExecutor js = (JavascriptExecutor)ldriver;
-			js.executeScript("arguments[0].click();", listitem);
+			//JavascriptExecutor js = (JavascriptExecutor)ldriver;
+			//js.executeScript("arguments[0].click();", listitem);
 			
 	}
 
