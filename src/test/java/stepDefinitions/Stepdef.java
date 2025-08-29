@@ -255,7 +255,7 @@ public class Stepdef extends BaseClass
 
 		@When("User enter product info")
 		public void user_enter_product_info() throws InterruptedException {
-			String name = "Sri Venkateshwara Swamy - TTD " + randomestring();
+			String name = "Sri Venkateshwara Swamy - TTD" + randomestring();
 			addProd.setProductname(name);
 			addProd.setShortdescription(name);
 			addProd.setFulldescription(name);
